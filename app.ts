@@ -1,5 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
+const Beta = require("./models/beta.model").betaModel;
+const Tester = require("./models/tester.model").testerModel;
 
 const port = process.env.PORT || 5555;
 
@@ -19,7 +21,25 @@ app.get('/',(req, res) => {
     res.send("OK")
 });
 
+app.get("/create/beta", (req, res) => {
+    const betaItem = new Beta({ name : `Testing: ${Date.now()}` });
+    betaItem.save((err) => {
+        res.json({err: err, item: betaItem});
+    });
+});
 
+app.get("/create/:beta/tester", (req, res) => {
+    Beta.findOne({ id: req.params.beta }, (err, beta) => {
+        if (err){
+            res.json({err: err});
+            return;
+        }
+        const testerItem = new Tester({ beta:beta, name : `Testing: ${Date.now()}` });
+        testerItem.save((err1) => {
+            res.json({err: err1, item: testerItem});
+        });
+    });
+});
 
 
 mongoose.connect('mongodb://localhost:27017/test', {
