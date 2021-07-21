@@ -34,13 +34,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __asyncValues = (this && this.__asyncValues) || function (o) {
-    if (!Symbol.asyncIterator) throw new TypeError("Symbol.asyncIterator is not defined.");
-    var m = o[Symbol.asyncIterator], i;
-    return m ? m.call(o) : (o = typeof __values === "function" ? __values(o) : o[Symbol.iterator](), i = {}, verb("next"), verb("throw"), verb("return"), i[Symbol.asyncIterator] = function () { return this; }, i);
-    function verb(n) { i[n] = o[n] && function (v) { return new Promise(function (resolve, reject) { v = o[n](v), settle(resolve, reject, v.done, v.value); }); }; }
-    function settle(resolve, reject, d, v) { Promise.resolve(v).then(function(v) { resolve({ value: v, done: d }); }, reject); }
-};
 var _this = this;
 var express = require('express');
 var bodyParser = require('body-parser');
@@ -65,15 +58,15 @@ app.use(function (req, res, next) {
 
     / - base route nothing special here. maybe api documentation
         /beta
-            - GET = gets current list of the betas
-            - POST = creates a new beta
+            √ - GET = gets current list of the betas
+            √ - POST = creates a new beta
         /beta/:beta_id
-            - GET = gets current beta and list of testers for this beta
+            √ - GET = gets current beta and list of testers for this beta
             - POST = Nothing
             - DELETE = removes current beta
             - PUT = Updates current beta
         /beta/:beta_id/tester
-            - GET = get list of testers for the current beta
+            √ - GET = get list of testers for the current beta
             - POST = creates new tester and adds them to this beta
         /tester
             - GET = gets current list of all testers
@@ -83,7 +76,7 @@ app.use(function (req, res, next) {
             - POST = Nothing
             - DELETE - Removes current tester
             - PUT = Updates current tester - will be useful for changing the status of the applicant.
-
+    /404.html - need custom error page.
 
  */
 app.get('/', function (req, res) {
@@ -92,59 +85,36 @@ app.get('/', function (req, res) {
 app.use('/beta', BetaRouter);
 app.use('/tester', TesterRouter);
 var ObjectId = mongoose.ObjectId;
-app.get('/list', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var outputObj, _a, _b, doc, c, o, e_1_1;
-    var e_1, _c;
-    return __generator(this, function (_d) {
-        switch (_d.label) {
-            case 0:
-                console.log("Coming soon");
-                outputObj = [];
-                _d.label = 1;
-            case 1:
-                _d.trys.push([1, 7, 8, 13]);
-                _a = __asyncValues(Beta.find());
-                _d.label = 2;
-            case 2: return [4 /*yield*/, _a.next()];
-            case 3:
-                if (!(_b = _d.sent(), !_b.done)) return [3 /*break*/, 6];
-                doc = _b.value;
-                // use `doc`
-                // var o = doc;
-                console.log(doc);
-                return [4 /*yield*/, Tester.find({
-                        beta: mongoose.Types.ObjectId(doc.id)
-                    })];
-            case 4:
-                c = _d.sent();
-                o = {
-                    beta: doc,
-                    users: c
-                };
-                outputObj.push(o);
-                _d.label = 5;
-            case 5: return [3 /*break*/, 2];
-            case 6: return [3 /*break*/, 13];
-            case 7:
-                e_1_1 = _d.sent();
-                e_1 = { error: e_1_1 };
-                return [3 /*break*/, 13];
-            case 8:
-                _d.trys.push([8, , 11, 12]);
-                if (!(_b && !_b.done && (_c = _a["return"]))) return [3 /*break*/, 10];
-                return [4 /*yield*/, _c.call(_a)];
-            case 9:
-                _d.sent();
-                _d.label = 10;
-            case 10: return [3 /*break*/, 12];
-            case 11:
-                if (e_1) throw e_1.error;
-                return [7 /*endfinally*/];
-            case 12: return [7 /*endfinally*/];
-            case 13: return [2 /*return*/, res.json(outputObj)];
-        }
-    });
-}); });
+// app.get('/list', async  (req, res) => {
+//     console.log("Coming soon");
+//
+//     // var users = await Tester.find()
+//
+//     const outputObj = [];
+//
+//     // const allBetaUsers = await Beta.find();
+//
+//     for await (const doc of Beta.find()) {
+//         // use `doc`
+//         // var o = doc;
+//         console.log(doc);
+//
+//         let c = await Tester.find({
+//             beta: mongoose.Types.ObjectId(doc.id)
+//         });
+//         // o.users = "Hello";
+//         // console.log(o);
+//         let o = {
+//             beta: doc,
+//             users: c
+//         };
+//         outputObj.push(o);
+//     }
+//
+//     return res.json(outputObj);
+//
+//     // return res.send("OK");
+// });
 // app.get("/create/beta", (req, res) => {
 //     const betaItem = new Beta({ name : `Testing: ${Date.now()}` });
 //     betaItem.save((err) => {

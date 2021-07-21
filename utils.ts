@@ -5,13 +5,28 @@
 
     // TODO: test this function more.
     output.validateInputs = (keys: [String], input: Object) => {
-        let o: { missingValues: [String]|[]; value: Object };
+        let o: { missingValues: [String]|[]; extraneousValues: [String]|[]; value: Object };
         o = {
             missingValues: [],
+            extraneousValues: [],
             value: {}
         };
         console.log(input);
         console.log(keys);
+
+        const inputKeys = Object.keys(input);
+        inputKeys.forEach((value => {
+            if (keys.indexOf(value) > -1){
+                // good
+            }
+            else {
+                // shouldn't exist
+                // @ts-ignore
+                o.extraneousValues.push(value);
+            }
+        }));
+
+        // TODO: calculate extraneousValues
 
         for (let index = 0; index < keys.length; index++) {
             const key = keys[index];

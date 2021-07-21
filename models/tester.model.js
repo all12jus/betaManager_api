@@ -24,6 +24,7 @@ var testerSchema = new mongoose.Schema({
     },
     email_address: {
         type: String,
+        unique: true,
         required: [true, "No email_address found"]
     }
 }, { timestamps: true });

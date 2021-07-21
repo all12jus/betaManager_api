@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 // const uuid = require('node-uuid');
 
-const betaSchema = require("./beta.model");
+// const betaSchema = require("./beta.model");
 
 const testerSchema = new mongoose.Schema({
     // _id: {
@@ -23,6 +23,7 @@ const testerSchema = new mongoose.Schema({
     },
     email_address: {
         type: String,
+        unique: true,
         required: [true, "No email_address found"]
     }
 

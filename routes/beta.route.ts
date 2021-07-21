@@ -45,8 +45,8 @@
     router.post("/", (req, res) => {
         console.log(req.body);
         let result = utils.validateInputs(['name'], req.body);
-        if (result.missingValues.length > 0){
-            return res.status(400).json({ "error": "Missing Values", "missingValues": result.missingValues });
+        if (result.missingValues.length > 0 || result.extraneousValues.length > 0){
+            return res.status(400).json({ "error": "Missing Values", "missingValues": result.missingValues, "extraneousValues": result.extraneousValues });
         }
 
         const betaItem = new Beta(result.value);
@@ -56,29 +56,72 @@
             }
             res.json({err: (err !=null) ? err : undefined, item: betaItem});
         });
-
-        // try {
-        //
-        // } catch (missingData) {
-        //     console.log(req.body['name'])
-        //     return res.status(400).json({ "messagE": "line 33",error: missingData });
-        // }
     });
 
-    router.post("/:beta_id/tester", async (req, res) => {
+    router.get("/:beta_id/", async (req, res) => {
         const beta = await Beta.findOne({
-            _id: req.params.beta
+            _id: req.params.beta_id
         }).catch((err) =>{
             return res.status(400).json({ error: err });
         });
 
         if (beta == null) {
-            return res.status(400).json({ error: "No beta found" });
+            return res.status(400).json({ "error": "Invalid Parameter", "params" : req.params.beta_id });
+        }
+
+        let c = await Tester.find({
+            beta: mongoose.Types.ObjectId(beta.id)
+        }).catch((err) =>{
+            return res.status(400).json({ error: err });
+        });
+        // o.users = "Hello";
+        // console.log(o);
+        let o = {
+            beta: beta,
+            users: c
+        };
+        return res.json(o);
+    });
+
+    router.get("/:beta_id/tester", async (req, res) => {
+        const beta = await Beta.findOne({
+            _id: req.params.beta_id
+        }).catch((err) =>{
+            return res.status(400).json({ error: err });
+        });
+
+        if (beta == null) {
+            return res.status(400).json({ "error": "Invalid Parameter", "params" : req.params.beta_id });
+        }
+
+        let c = await Tester.find({
+            beta: mongoose.Types.ObjectId(beta.id)
+        }).catch((err) =>{
+            return res.status(400).json({ error: err });
+        });
+        // o.users = "Hello";
+        // console.log(o);
+        // let o = {
+        //     // beta: beta,
+        //     users: c
+        // };
+        return res.json(c);
+    });
+
+    router.post("/:beta_id/tester", async (req, res) => {
+        const beta = await Beta.findOne({
+            _id: req.params.beta_id
+        }).catch((err) =>{
+            return res.status(400).json({ error: err });
+        });
+
+        if (beta == null) {
+            return res.status(400).json({ "error": "Invalid Parameter", "params" : req.params.beta_id });
         }
 
         let result = utils.validateInputs(["last_name", "first_name", "email_address"], req.body);
-        if (result.missingValues.length > 0){
-            return res.status(400).json({ "error": "Missing Values", "missingValues": result.missingValues });
+        if (result.missingValues.length > 0 || result.extraneousValues.length > 0){
+            return res.status(400).json({ "error": "Missing Values", "missingValues": result.missingValues, "extraneousValues": result.extraneousValues });
         }
         const testerItem = new Tester(result.value);
         testerItem.beta = beta;
@@ -89,21 +132,6 @@
             // res.json({err: err, item: testerItem});
             res.json({err: (err !=null) ? err : undefined, item: testerItem});
         })
-
-        // try {
-        //     let result = utils.validateInputs(["last_name", "first_name", "email_address"], req.body);
-        //     const testerItem = new Tester(result);
-        //     testerItem.beta = beta;
-        //     testerItem.save((err) => {
-        //         if (err != null) {
-        //             return res.status(500).json({error: "Database Error: " + err});
-        //         }
-        //         // res.json({err: err, item: testerItem});
-        //         res.json({err: (err !=null) ? err : undefined, item: testerItem});
-        //     })
-        // } catch (missingData) {
-        //     return res.status(400).json({ error: missingData });
-        // }
     });
 
     module.exports = router;

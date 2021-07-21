@@ -26,16 +26,16 @@ app.use((req, res, next) => {
 
     / - base route nothing special here. maybe api documentation
         /beta
-            - GET = gets current list of the betas
-            - POST = creates a new beta
+            √ - GET = gets current list of the betas
+            √ - POST = creates a new beta
         /beta/:beta_id
-            - GET = gets current beta and list of testers for this beta
+            √ - GET = gets current beta and list of testers for this beta
             - POST = Nothing
             - DELETE = removes current beta
             - PUT = Updates current beta
         /beta/:beta_id/tester
-            - GET = get list of testers for the current beta
-            - POST = creates new tester and adds them to this beta
+            √ - GET = get list of testers for the current beta
+            √ - POST = creates new tester and adds them to this beta
         /tester
             - GET = gets current list of all testers
             - POST = Nothing
@@ -44,7 +44,7 @@ app.use((req, res, next) => {
             - POST = Nothing
             - DELETE - Removes current tester
             - PUT = Updates current tester - will be useful for changing the status of the applicant.
-
+    /404.html - need custom error page.
 
  */
 
