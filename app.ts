@@ -30,15 +30,15 @@ app.use((req, res, next) => {
             √ - POST = creates a new beta
         /beta/:beta_id
             √ - GET = gets current beta and list of testers for this beta
-            - POST = Nothing
+            √ - POST = Nothing
             - DELETE = removes current beta
             - PUT = Updates current beta
         /beta/:beta_id/tester
             √ - GET = get list of testers for the current beta
             √ - POST = creates new tester and adds them to this beta
         /tester
-            - GET = gets current list of all testers
-            - POST = Nothing
+            √ - GET = gets current list of all testers
+            √ - POST = Nothing
         /tester/:tester_id
             - GET = gets current tester
             - POST = Nothing

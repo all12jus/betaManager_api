@@ -57,5 +57,16 @@ var _this = this;
             }
         });
     }); });
+    router.get('/:tester_id', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+        var tester;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Tester.findByID(req.params['tester_id'])];
+                case 1:
+                    tester = _a.sent();
+                    return [2 /*return*/, res.json(tester)];
+            }
+        });
+    }); });
     module.exports = router;
 })();

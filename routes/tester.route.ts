@@ -17,5 +17,10 @@
         return res.json(users);
     });
 
+    router.get('/:tester_id', async  (req, res) => {
+        const tester = await Tester.findByID(req.params['tester_id']);
+        return res.json(tester);
+    });
+
     module.exports = router;
 })()

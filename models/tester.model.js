@@ -3,7 +3,7 @@ exports.__esModule = true;
 exports.testerModel = exports.testerSchema = void 0;
 var mongoose = require("mongoose");
 // const uuid = require('node-uuid');
-var betaSchema = require("./beta.model");
+// const betaSchema = require("./beta.model");
 var testerSchema = new mongoose.Schema({
     // _id: {
     //     type: String,
