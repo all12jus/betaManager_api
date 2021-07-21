@@ -47,6 +47,8 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var Beta = require("./models/beta.model").betaModel;
 var Tester = require("./models/tester.model").testerModel;
+var BetaRouter = require("./routes/beta.route");
+var TesterRouter = require("./routes/tester.route");
 var port = process.env.PORT || 5555;
 var app = express();
 app.set('json spaces', 2);
@@ -59,9 +61,36 @@ app.use(function (req, res, next) {
         return next(databaseConnectionError);
     }
 });
+/*
+
+    / - base route nothing special here. maybe api documentation
+        /beta
+            - GET = gets current list of the betas
+            - POST = creates a new beta
+        /beta/:beta_id
+            - GET = gets current beta and list of testers for this beta
+            - POST = Nothing
+            - DELETE = removes current beta
+            - PUT = Updates current beta
+        /beta/:beta_id/tester
+            - GET = get list of testers for the current beta
+            - POST = creates new tester and adds them to this beta
+        /tester
+            - GET = gets current list of all testers
+            - POST = Nothing
+        /tester/:tester_id
+            - GET = gets current tester
+            - POST = Nothing
+            - DELETE - Removes current tester
+            - PUT = Updates current tester - will be useful for changing the status of the applicant.
+
+
+ */
 app.get('/', function (req, res) {
     res.send("OK");
 });
+app.use('/beta', BetaRouter);
+app.use('/tester', TesterRouter);
 var ObjectId = mongoose.ObjectId;
 app.get('/list', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     var outputObj, _a, _b, doc, c, o, e_1_1;
@@ -116,26 +145,12 @@ app.get('/list', function (req, res) { return __awaiter(_this, void 0, void 0, f
         }
     });
 }); });
-app.get('/testers', function (req, res) { return __awaiter(_this, void 0, void 0, function () {
-    var users;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0:
-                console.log("Coming soon");
-                return [4 /*yield*/, Tester.find()];
-            case 1:
-                users = _a.sent();
-                return [2 /*return*/, res.json(users)];
-        }
-    });
-}); });
-// app.get("/be")
-app.get("/create/beta", function (req, res) {
-    var betaItem = new Beta({ name: "Testing: " + Date.now() });
-    betaItem.save(function (err) {
-        res.json({ err: err, item: betaItem });
-    });
-});
+// app.get("/create/beta", (req, res) => {
+//     const betaItem = new Beta({ name : `Testing: ${Date.now()}` });
+//     betaItem.save((err) => {
+//         res.json({err: err, item: betaItem});
+//     });
+// });
 app.get("/create/:beta/tester", function (req, res) {
     Beta.findOne({ _id: req.params.beta }, function (err, beta) {
         if (err || beta == null) {

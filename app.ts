@@ -3,6 +3,8 @@ const bodyParser = require('body-parser')
 const mongoose = require('mongoose');
 const Beta = require("./models/beta.model").betaModel;
 const Tester = require("./models/tester.model").testerModel;
+const BetaRouter = require("./routes/beta.route");
+const TesterRouter = require("./routes/tester.route");
 
 const port = process.env.PORT || 5555;
 
@@ -50,6 +52,9 @@ app.get('/',(req, res) => {
     res.send("OK")
 });
 
+app.use('/beta', BetaRouter);
+app.use('/tester', TesterRouter);
+
 
 const ObjectId = mongoose.ObjectId;
 
@@ -84,24 +89,12 @@ app.get('/list', async  (req, res) => {
     // return res.send("OK");
 });
 
-
-app.get('/testers', async  (req, res) => {
-    console.log("Coming soon");
-
-    var users = await Tester.find()
-    return res.json(users);
-
-    // return res.send("OK");
-});
-
-// app.get("/be")
-
-app.get("/create/beta", (req, res) => {
-    const betaItem = new Beta({ name : `Testing: ${Date.now()}` });
-    betaItem.save((err) => {
-        res.json({err: err, item: betaItem});
-    });
-});
+// app.get("/create/beta", (req, res) => {
+//     const betaItem = new Beta({ name : `Testing: ${Date.now()}` });
+//     betaItem.save((err) => {
+//         res.json({err: err, item: betaItem});
+//     });
+// });
 
 app.get("/create/:beta/tester", (req, res) => {
     Beta.findOne({ _id: req.params.beta }, (err, beta) => {
