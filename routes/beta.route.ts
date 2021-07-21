@@ -83,6 +83,20 @@
         return res.json(o);
     });
 
+    router.delete("/:beta_id/", async (req, res) =>{
+        await Beta.findOneAndDelete({
+            _id: req.params.beta_id
+        }, (err, docs) => {
+            if (err != null) {
+                return res.status(400).json({ error: err });
+            }
+            return res.status(200).json({
+                success: true,
+                removed: docs
+            })
+        });
+    });
+
     router.get("/:beta_id/tester", async (req, res) => {
         const beta = await Beta.findOne({
             _id: req.params.beta_id

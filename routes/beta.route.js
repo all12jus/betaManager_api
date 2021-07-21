@@ -150,6 +150,26 @@ var _this = this;
             }
         });
     }); });
+    router["delete"]("/:beta_id/", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, Beta.findOneAndDelete({
+                        _id: req.params.beta_id
+                    }, function (err, docs) {
+                        if (err != null) {
+                            return res.status(400).json({ error: err });
+                        }
+                        return res.status(200).json({
+                            success: true,
+                            removed: docs
+                        });
+                    })];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); });
     router.get("/:beta_id/tester", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
         var beta, c;
         return __generator(this, function (_a) {
