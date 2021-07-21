@@ -151,34 +151,34 @@ app.get('/list', function (req, res) { return __awaiter(_this, void 0, void 0, f
 //         res.json({err: err, item: betaItem});
 //     });
 // });
-app.get("/create/:beta/tester", function (req, res) {
-    Beta.findOne({ _id: req.params.beta }, function (err, beta) {
-        if (err || beta == null) {
-            res.json({ err: err });
-            return;
-        }
-        var testerItem = new Tester({
-            beta: beta,
-            first_name: "Testing: " + Date.now(),
-            last_name: "EEVVEVE",
-            email_address: "test@test.com"
-        });
-        testerItem.save(function (err1) {
-            res.json({ err: err1, item: testerItem });
-        });
-    });
-});
-app.post("/test", [
-    bodyParser.urlencoded({ extended: true }),
-    bodyParser.json(),
-    bodyParser.text()
-], function (req, res) {
-    console.log(req.body);
-    res.send({
-        "body": req.body,
-        "date": new Date().toLocaleTimeString()
-    });
-});
+// app.get("/create/:beta/tester", (req, res) => {
+//     Beta.findOne({ _id: req.params.beta }, (err, beta) => {
+//         if (err || beta == null){
+//             res.json({err: err});
+//             return;
+//         }
+//         const testerItem = new Tester({
+//             beta:beta,
+//             first_name : `Testing: ${Date.now()}`,
+//             last_name:"EEVVEVE" ,
+//             email_address: "test@test.com"
+//         });
+//         testerItem.save((err1) => {
+//             res.json({err: err1, item: testerItem});
+//         });
+//     });
+// });
+// app.post("/test", [
+//     bodyParser.urlencoded({extended:true})
+//     , bodyParser.json()
+//     , bodyParser.text()
+// ], (req, res) => {
+//     console.log(req.body);
+//     res.send({
+//         "body": req.body,
+//         "date" : new Date().toLocaleTimeString()
+//     });
+// })
 app.get("/clearData", function (req, res) { return __awaiter(_this, void 0, void 0, function () {
     return __generator(this, function (_a) {
         switch (_a.label) {

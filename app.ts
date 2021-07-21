@@ -58,36 +58,36 @@ app.use('/tester', TesterRouter);
 
 const ObjectId = mongoose.ObjectId;
 
-app.get('/list', async  (req, res) => {
-    console.log("Coming soon");
-
-    // var users = await Tester.find()
-
-    const outputObj = [];
-
-    // const allBetaUsers = await Beta.find();
-
-    for await (const doc of Beta.find()) {
-        // use `doc`
-        // var o = doc;
-        console.log(doc);
-
-        let c = await Tester.find({
-            beta: mongoose.Types.ObjectId(doc.id)
-        });
-        // o.users = "Hello";
-        // console.log(o);
-        let o = {
-            beta: doc,
-            users: c
-        };
-        outputObj.push(o);
-    }
-
-    return res.json(outputObj);
-
-    // return res.send("OK");
-});
+// app.get('/list', async  (req, res) => {
+//     console.log("Coming soon");
+//
+//     // var users = await Tester.find()
+//
+//     const outputObj = [];
+//
+//     // const allBetaUsers = await Beta.find();
+//
+//     for await (const doc of Beta.find()) {
+//         // use `doc`
+//         // var o = doc;
+//         console.log(doc);
+//
+//         let c = await Tester.find({
+//             beta: mongoose.Types.ObjectId(doc.id)
+//         });
+//         // o.users = "Hello";
+//         // console.log(o);
+//         let o = {
+//             beta: doc,
+//             users: c
+//         };
+//         outputObj.push(o);
+//     }
+//
+//     return res.json(outputObj);
+//
+//     // return res.send("OK");
+// });
 
 // app.get("/create/beta", (req, res) => {
 //     const betaItem = new Beta({ name : `Testing: ${Date.now()}` });
@@ -96,35 +96,35 @@ app.get('/list', async  (req, res) => {
 //     });
 // });
 
-app.get("/create/:beta/tester", (req, res) => {
-    Beta.findOne({ _id: req.params.beta }, (err, beta) => {
-        if (err || beta == null){
-            res.json({err: err});
-            return;
-        }
-        const testerItem = new Tester({
-            beta:beta,
-            first_name : `Testing: ${Date.now()}`,
-            last_name:"EEVVEVE" ,
-            email_address: "test@test.com"
-        });
-        testerItem.save((err1) => {
-            res.json({err: err1, item: testerItem});
-        });
-    });
-});
+// app.get("/create/:beta/tester", (req, res) => {
+//     Beta.findOne({ _id: req.params.beta }, (err, beta) => {
+//         if (err || beta == null){
+//             res.json({err: err});
+//             return;
+//         }
+//         const testerItem = new Tester({
+//             beta:beta,
+//             first_name : `Testing: ${Date.now()}`,
+//             last_name:"EEVVEVE" ,
+//             email_address: "test@test.com"
+//         });
+//         testerItem.save((err1) => {
+//             res.json({err: err1, item: testerItem});
+//         });
+//     });
+// });
 
-app.post("/test", [
-    bodyParser.urlencoded({extended:true})
-    , bodyParser.json()
-    , bodyParser.text()
-], (req, res) => {
-    console.log(req.body);
-    res.send({
-        "body": req.body,
-        "date" : new Date().toLocaleTimeString()
-    });
-})
+// app.post("/test", [
+//     bodyParser.urlencoded({extended:true})
+//     , bodyParser.json()
+//     , bodyParser.text()
+// ], (req, res) => {
+//     console.log(req.body);
+//     res.send({
+//         "body": req.body,
+//         "date" : new Date().toLocaleTimeString()
+//     });
+// })
 
 app.get("/clearData", async (req, res) => {
    await Beta.deleteMany({});
