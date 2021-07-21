@@ -18,7 +18,6 @@
     });
 
     router.post("/", (req, res) => {
-
         try {
             let result = utils.validateInputs(['name'], req.body);
             const betaItem = new Beta(result);
@@ -31,12 +30,6 @@
         } catch (missingData) {
             return res.status(400).json({ error: missingData });
         }
-
-        // if (req.body['name'] == null) {
-        //     return res.status(400).json({error: "No name found in request body."});
-        // }
-
-
     });
 
     module.exports = router;
